@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>โหวตรูปภาพ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Chonburi&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">☆</span>
+      <span class="brand-text">โหวตรูปภาพ</span>
+    </div>
+    <div id="statusPill" class="status-pill status-loading">กำลังตรวจสอบ…</div>
+    <div class="topbar-actions">
+      <span id="whoami" class="whoami hidden"></span>
+      <button id="logoutBtn" class="btn-ghost hidden">ออกจากระบบ</button>
+      <button id="openAdminBtn" class="btn-ghost">แอดมิน</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== LOGIN / REGISTER (ผู้โหวต) ===== -->
+<main id="authScreen" class="auth-screen">
+  <div class="ticket-card">
+    <div class="ticket-perf"></div>
+    <h1 class="ticket-title">เข้าสู่ระบบเพื่อโหวต</h1>
+    <p class="ticket-sub">ใส่ชื่อผู้ใช้และรหัสผ่านของคุณ ใช้เข้าดูผลได้ตลอดเวลา</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="login">เข้าสู่ระบบ</button>
+      <button class="tab-btn" data-tab="register">สมัครสมาชิก</button>
+    </div>
+
+    <form id="loginForm" class="auth-form">
+      <label>ชื่อผู้ใช้
+        <input type="text" id="loginUser" autocomplete="username" required>
+      </label>
+      <label>รหัสผ่าน
+        <input type="password" id="loginPass" autocomplete="current-password" required>
+      </label>
+      <button type="submit" class="btn-primary">เข้าสู่ระบบ</button>
+      <p id="loginError" class="form-error"></p>
+    </form>
+
+    <form id="registerForm" class="auth-form hidden">
+      <label>ตั้งชื่อผู้ใช้
+        <input type="text" id="regUser" autocomplete="username" required>
+      </label>
+      <label>ตั้งรหัสผ่าน
+        <input type="password" id="regPass" autocomplete="new-password" required minlength="4">
+      </label>
+      <button type="submit" class="btn-primary">สมัครสมาชิก</button>
+      <p id="registerError" class="form-error"></p>
+    </form>
+  </div>
+</main>
+
+<!-- ===== VOTING GALLERY ===== -->
+<main id="voteScreen" class="vote-screen hidden">
+  <section class="hero-msg">
+    <h2 id="heroTitle">การโหวตยังไม่เปิด</h2>
+    <p id="heroSub" class="hero-sub"></p>
+  </section>
+
+  <section id="gallery" class="gallery"></section>
+
+  <p id="emptyGallery" class="empty-note hidden">ยังไม่มีรูปภาพให้โหวตในขณะนี้</p>
+
+  <section id="publicResultsSection" class="hero-msg hidden" style="margin-top:46px;">
+    <h2 style="font-size:1.4rem;">🏆 ผลการโหวต</h2>
+    <div id="publicResults" class="results-board" style="max-width:520px;margin:18px auto 0;text-align:left;"></div>
+  </section>
+</main>
+
+<!-- ===== ADMIN LOGIN MODAL ===== -->
+<div id="adminLoginModal" class="modal-overlay hidden">
+  <div class="modal">
+    <button class="modal-close" data-close="adminLoginModal">×</button>
+    <h3>เข้าสู่ระบบแอดมิน</h3>
+    <form id="adminLoginForm">
+      <label>รหัสผ่านแอดมิน
+        <input type="password" id="adminPass" autocomplete="off" required>
+      </label>
+      <button type="submit" class="btn-primary">เข้าสู่ระบบ</button>
+      <p id="adminLoginError" class="form-error"></p>
+    </form>
+  </div>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div id="adminScreen" class="admin-screen hidden">
+  <div class="admin-inner">
+    <div class="admin-header">
+      <h2>แผงควบคุมแอดมิน</h2>
+      <button id="closeAdminBtn" class="btn-ghost">ปิดแผงควบคุม</button>
+    </div>
+
+    <section class="admin-card">
+      <h3>1. ตั้งเวลาการโหวต</h3>
+      <div class="schedule-row">
+        <label>เปิดโหวต
+          <input type="datetime-local" id="startTime">
+        </label>
+        <label>ปิดโหวต
+          <input type="datetime-local" id="endTime">
+        </label>
+        <button id="saveScheduleBtn" class="btn-primary">บันทึกเวลา</button>
+      </div>
+      <p class="hint">ถ้าไม่ตั้งเวลา ระบบจะถือว่ายังไม่เปิดโหวต จนกว่าแอดมินจะกำหนด</p>
+    </section>
+
+    <section class="admin-card">
+      <h3>2. เพิ่มรูปภาพเข้าประกวด</h3>
+      <form id="addImageForm" class="add-image-form">
+        <label>ชื่อรูป / ชื่อผู้เข้าประกวด
+          <input type="text" id="imgTitle" required>
+        </label>
+        <label>เลือกไฟล์รูปภาพ
+          <input type="file" id="imgFile" accept="image/*" required>
+        </label>
+        <img id="imgPreview" class="img-preview hidden">
+        <button type="submit" class="btn-primary">เพิ่มรูปภาพ</button>
+      </form>
+    </section>
+
+    <section class="admin-card">
+      <h3>3. รูปภาพทั้งหมด <span id="imgCount" class="count-badge">0</span></h3>
+      <div id="adminImageList" class="admin-image-list"></div>
+    </section>
+
+    <section class="admin-card">
+      <h3>4. ผลโหวตและประกาศผล</h3>
+      <div class="reveal-row">
+        <span id="revealStatus" class="reveal-status">ผลโหวต: ซ่อนอยู่</span>
+        <button id="toggleRevealBtn" class="btn-primary">เปิดเผยผลโหวต</button>
+      </div>
+      <div id="resultsBoard" class="results-board"></div>
+    </section>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
