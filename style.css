@@ -1,0 +1,232 @@
+  :root{
+    --cream:#FFF7EF;
+    --blush:#FFDCD3;
+    --coral:#FF6F5E;
+    --plum:#452A44;
+    --gold:#F3B94D;
+    --mint:#BFE3D0;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 15% 20%, var(--blush) 0%, transparent 40%),
+      radial-gradient(circle at 85% 80%, var(--mint) 0%, transparent 40%),
+      var(--cream);
+    font-family:'Sarabun', sans-serif;
+    color:var(--plum);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow-x:hidden;
+    padding:20px;
+  }
+  .stage{
+    width:100%;
+    max-width:480px;
+    min-height:560px;
+    background:#fff;
+    border-radius:28px;
+    box-shadow:0 20px 60px rgba(69,42,68,0.15);
+    padding:32px 28px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .screen{ display:none; width:100%; animation:fadeIn 0.5s ease; }
+  .screen.active{ display:flex; flex-direction:column; align-items:center; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);} }
+
+  h1,h2{ font-family:'Fredoka', sans-serif; margin:0 0 8px; }
+  h1{ font-size:1.6rem; color:var(--coral); }
+  h2{ font-size:1.3rem; }
+  p{ line-height:1.6; margin:6px 0 18px; }
+  .eyebrow{
+    font-family:'Fredoka', sans-serif;
+    font-size:0.75rem;
+    letter-spacing:0.15em;
+    color:var(--coral);
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+
+  button{
+    font-family:'Fredoka', sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    border:none;
+    border-radius:999px;
+    padding:12px 28px;
+    background:var(--coral);
+    color:#fff;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(255,111,94,0.35);
+    transition:transform 0.15s ease;
+  }
+  button:hover{ transform:translateY(-2px); }
+  button:active{ transform:translateY(0px) scale(0.97); }
+  button:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+  button.secondary{
+    background:#fff;
+    color:var(--coral);
+    border:2px solid var(--coral);
+    box-shadow:none;
+  }
+
+  .progress-dots{ display:flex; gap:6px; margin-bottom:18px; }
+  .dot{ width:8px; height:8px; border-radius:50%; background:var(--blush); }
+  .dot.done{ background:var(--coral); }
+
+  /* Math game */
+  .sum{
+    font-family:'Fredoka', sans-serif;
+    font-size:2.2rem;
+    color:var(--plum);
+    margin:10px 0 20px;
+  }
+  .choices{ display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; }
+  .choice-btn{
+    background:var(--cream);
+    color:var(--plum);
+    border:2px solid var(--blush);
+    font-size:1.1rem;
+    padding:14px;
+    box-shadow:none;
+  }
+  .choice-btn.correct{ background:var(--mint); border-color:var(--mint); }
+  .choice-btn.wrong{ background:#FFD3D3; border-color:#FFD3D3; }
+  .feedback{ min-height:22px; font-weight:600; margin-top:12px; }
+
+  /* Block stacking game */
+  .block-area{
+    position:relative;
+    width:100%;
+    height:300px;
+    background:linear-gradient(180deg, #FFF2E8 0%, #FFEAD9 100%);
+    border-radius:18px;
+    overflow:hidden;
+    margin-bottom:16px;
+  }
+  .moving-block, .stacked-block{
+    position:absolute;
+    height:26px;
+    border-radius:6px;
+    box-shadow:0 3px 6px rgba(0,0,0,0.15);
+  }
+  .moving-block{ background:var(--coral); top:6px; }
+  .stack-count{ font-family:'Fredoka', sans-serif; font-weight:600; margin-bottom:10px; }
+  .game-msg{ min-height:22px; font-weight:600; }
+
+  /* Jigsaw puzzle */
+  .puzzle-board{
+    position:relative;
+    width:270px;
+    height:360px;
+    margin:0 auto 12px;
+    background:var(--blush);
+    border-radius:12px;
+    box-shadow:inset 0 0 0 2px var(--coral);
+  }
+  .puzzle-slot{
+    position:absolute;
+    box-sizing:border-box;
+    border:1px dashed rgba(69,42,68,0.15);
+  }
+  .puzzle-piece{
+    position:absolute;
+    box-sizing:border-box;
+    background-image:url('puzzle.jpg');
+    border-radius:4px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.25);
+    cursor:grab;
+    touch-action:none;
+    transition:box-shadow 0.15s ease;
+    z-index:2;
+  }
+  .puzzle-piece.dragging{
+    z-index:10;
+    cursor:grabbing;
+    box-shadow:0 8px 18px rgba(0,0,0,0.35);
+  }
+  .puzzle-piece.placed{
+    box-shadow:0 1px 3px rgba(0,0,0,0.15);
+    outline:2px solid var(--mint);
+  }
+
+  /* Envelope */
+  .envelope-wrap{ margin:10px 0 24px; cursor:pointer; }
+  .envelope{
+    width:200px;
+    height:130px;
+    position:relative;
+    margin:0 auto;
+  }
+  .env-body{
+    position:absolute;
+    inset:0;
+    background:var(--coral);
+    border-radius:8px;
+  }
+  .env-flap{
+    position:absolute;
+    top:0; left:0; right:0;
+    height:0;
+    border-left:100px solid transparent;
+    border-right:100px solid transparent;
+    border-top:65px solid #ff8a7c;
+    transform-origin:top;
+    transition:transform 0.6s ease;
+    z-index:3;
+  }
+  .envelope.open .env-flap{ transform:rotateX(180deg); }
+  .seal{
+    position:absolute;
+    top:48px; left:50%;
+    transform:translateX(-50%);
+    width:34px; height:34px;
+    background:var(--gold);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px;
+    z-index:4;
+    box-shadow:0 3px 6px rgba(0,0,0,0.2);
+    transition:opacity 0.3s ease;
+  }
+  .envelope.open .seal{ opacity:0; }
+  .letter{
+    position:absolute;
+    left:15px; right:15px;
+    bottom:6px;
+    height:0;
+    background:#fff;
+    border-radius:6px;
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    z-index:2;
+    transition:height 0.5s ease 0.3s, top 0.5s ease 0.3s;
+  }
+  .envelope.open .letter{ height:150px; top:-40px; box-shadow:0 6px 16px rgba(0,0,0,0.15); }
+  .letter-text{
+    font-family:'Fredoka', sans-serif;
+    font-size:1.6rem;
+    color:var(--coral);
+    opacity:0;
+    transition:opacity 0.4s ease 0.8s;
+    text-align:center;
+    padding:8px;
+  }
+  .envelope.open .letter-text{ opacity:1; }
+
+  .confetti{
+    position:absolute;
+    top:-10px;
+    border-radius:2px;
+    pointer-events:none;
+  }
+
+  .hint{ font-size:0.85rem; color:#8a7a89; margin-top:10px; }
